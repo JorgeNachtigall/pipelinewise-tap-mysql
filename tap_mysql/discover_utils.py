@@ -199,9 +199,9 @@ def discover_catalog(mysql_conn: MySQLConnection, dbs: str = None, tables: Optio
                                         'database-name',
                                         table_schema)
 
-                is_view = table_info[table_schema][table_name]['is_view']
 
                 if table_schema in table_info and table_name in table_info[table_schema]:
+                    is_view = table_info[table_schema][table_name]['is_view']
                     row_count = table_info[table_schema][table_name].get('row_count')
 
                     if row_count is not None:
@@ -214,6 +214,8 @@ def discover_catalog(mysql_conn: MySQLConnection, dbs: str = None, tables: Optio
                                             (),
                                             'is-view',
                                             is_view)
+                else:
+                    continue
 
                 column_is_key_prop = lambda c, s: (c.column_key == 'PRI' and
                                                    s.properties[c.column_name].inclusion != 'unsupported')
